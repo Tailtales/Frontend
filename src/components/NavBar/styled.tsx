@@ -5,9 +5,7 @@ import { NavLink } from 'react-router-dom';
 // import { Box } from 'nft/components/Box';
 
 export const Nav = styled.nav`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  padding: 1rem 32px;
+  display: flex;
   width: 100%;
 
 `;
@@ -26,6 +24,7 @@ export const LogoContainer = styled.div`
 `;
 
 export const MenuContainer = styled.div`
+  display: flex;
   align-items: center;
   justify-content: space-around;
   margin: 0px 12px;

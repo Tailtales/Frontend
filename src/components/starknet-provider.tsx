@@ -28,6 +28,7 @@ export function StarknetProvider({ children }: { children: React.ReactNode }) {
       chains={[mainnet, goerli]}
       provider={publicProvider()}
       connectors={connectors}
+      autoConnect
     >
       {children}
     </StarknetConfig>
