@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 export const Nav = styled.nav`
   display: flex;
   width: 100%;
-
+  background: rgba(42, 42, 43, 0.61);
 `;
 
 export const LogoContainer = styled.div`
@@ -18,13 +18,11 @@ export const LogoContainer = styled.div`
   img {
     cursor: pointer;
   }
-  img.desktop {
-    display: none;
-  }
 `;
 
 export const MenuContainer = styled.div`
   display: flex;
+  flex: 0.7;
   align-items: center;
   justify-content: space-around;
   margin: 0px 12px;
@@ -49,6 +47,7 @@ const baseLinkCss = css`
 
 const BaseMenuItem = styled(NavLink)`
   ${baseLinkCss};
+  color: '#FFF';
 `;
 
 export const StatusContainer = styled.div`
@@ -56,13 +55,14 @@ export const StatusContainer = styled.div`
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-  
+  background: rgba(0, 0, 0, 0.17);
+  margin-left: auto;
+  backdrop-filter: blur(20px);
 `;
 
 export const MenuItem = styled(BaseMenuItem)``;
 
 export const ActiveMenuItem = styled(BaseMenuItem)`
-  text-shadow: 0px 0px 73.21151733398438px rgba(49, 255, 156, 0.50), 0px 0px 18.911256790161133px rgba(49, 255, 156, 0.70);
   &:after {
     content: "";
     position: absolute;

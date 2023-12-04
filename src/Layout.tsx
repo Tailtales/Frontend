@@ -7,6 +7,7 @@ import DailyQuest from './pages/DailyQuest'
 import LastRites from './pages/LastRites'
 import Home from './pages/Home'
 import Navbar from './components/NavBar'
+import Mint from './pages/Mint'
 
 
 const AppWrapper = styled.div`
@@ -14,6 +15,9 @@ const AppWrapper = styled.div`
   flex-flow: column;
   align-items: flex-start;
   overflow-x: hidden;
+  background-image: url('src/assets/backgroundImage.png');
+  min-height: 100vh;
+  width: 100%;
 `
 
 const HeaderWrapper = styled.div`
@@ -25,12 +29,6 @@ const BodyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-top: 100px;
-  align-items: center;
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  z-index: 10;
 `
 
 const Marginer = styled.div`
@@ -42,7 +40,6 @@ export default function Layout() {
 
   return (
     <Suspense fallback={null}>
-      <Route />
       <AppWrapper>
         <HeaderWrapper>
             <Navbar />
@@ -51,6 +48,7 @@ export default function Layout() {
             <Web3ReactProvider getLibrary={web3 => web3}>
               <Switch>
                 <Route exact strict path="/" component={Home} />
+                <Route exact strict path="/mint" component={Mint} />
                 <Route exact strict path="/breeding" component={Breeding} />
                 <Route exact strict path="/dailyQuests" component={DailyQuest} />
                 <Route exact strict path="/lastRites" component={LastRites} />

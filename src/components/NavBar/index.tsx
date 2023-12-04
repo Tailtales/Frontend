@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 
 
-import Logo from '../../assets/react.svg';
+import logo from '../../assets/logo 1.png'
 import Web3Status from '../Web3Status';
 import { ActiveMenuItem, LogoContainer, MenuContainer, MenuItem, Nav, StatusContainer } from './styled';
 
@@ -11,7 +11,7 @@ const MenuItemLink = ({ to, isActive, children }) => {
   return (
     <Component
       to={to}
-      style={{ textDecoration: 'none' }}
+      style={{ textDecoration: 'none',   color: '#FFF' }}
     >
       {children}
     </Component>
@@ -23,14 +23,20 @@ export const PageTabs = () => {
 
   return (
     <>
+       <MenuItemLink to="/home" isActive={pathname.startsWith('/')}>
+        <div>Home</div>
+      </MenuItemLink>
+      <MenuItemLink to="/mint" isActive={pathname.startsWith('/mint')}>
+        <div>Mint</div>
+      </MenuItemLink>
       <MenuItemLink to="/breeding" isActive={pathname.startsWith('/breeding')}>
-        <div>Breeding</div>
+        <div>Breed</div>
       </MenuItemLink>
       <MenuItemLink to="/dailyQuests" isActive={pathname.startsWith('/dailyQuests')}>
         <div>Daily Quests</div>
       </MenuItemLink>
       <MenuItemLink to="/lastRites" isActive={pathname.startsWith('/lastRites')}>
-        <div>Last Rites</div>
+        <div>Funeral Opportunity</div>
       </MenuItemLink>
     </>
   );
@@ -47,7 +53,7 @@ const Navbar = () => {
   return (
     <Nav>
       <LogoContainer>
-        <img width={'195px'} height={'32px'} src={Logo} alt="logo" onClick={handleLogoIconClick} className={'desktop'} />
+        <img height={'90px'} width={'90px'} src={logo} alt="logo" onClick={handleLogoIconClick} className={'desktop'} />
       </LogoContainer>
 
       <MenuContainer>
