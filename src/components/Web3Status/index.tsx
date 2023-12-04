@@ -6,7 +6,7 @@ export default function Web3Status() {
 const [isWalletModalOpen, toggleWalletModal] = useState(false)
   return (
      <div>
-         {isWalletModalOpen && <WalletModal isWalletModalOpen={isWalletModalOpen} toggleWalletModal={toggleWalletModal}/> } 
+         {isWalletModalOpen && <WalletModal isWalletModalOpen={isWalletModalOpen} toggleWalletModal={() => toggleWalletModal(false)}/> } 
         <button onClick={() => toggleWalletModal(true)}>Connect Wallet</button>
      </div>
   )
