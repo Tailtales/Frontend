@@ -3,22 +3,28 @@ import { useHistory } from "react-router-dom";
 import { useCallback } from "react";
 
 const Wrapper = styled.div`
-  display: flex;
-  margin: auto;
-  padding-top: 164px;
+  background-image: url("src/assets/backgroundImage.png");
+  width: 100%;
+  height: 100vh;
 `;
 
 const PuppiesButton = styled.button`
-    border-radius: 50px;
-    background: #E19143;
-    border: none;
-    padding: 12px 54px;
-    color: #FFF;
-    font-family: sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 800;
-    line-height: normal;
+  border-radius: 50px;
+  background: #e19143;
+  border: none;
+  padding: 12px 54px;
+  color: #fff;
+  font-family: sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  margin: auto;
+`;
+
+const PuppiesWrapper = styled.div`
+  padding-top: 164px;
+  display: flex;
 `;
 export default function Home() {
   const history = useHistory();
@@ -28,7 +34,11 @@ export default function Home() {
   }, [history]);
   return (
     <Wrapper>
-      <PuppiesButton onClick={() => handleGetPuppies()}>Get Puppies</PuppiesButton>
+      <PuppiesWrapper>
+        <PuppiesButton onClick={() => handleGetPuppies()}>
+          Get Puppies
+        </PuppiesButton>
+      </PuppiesWrapper>
     </Wrapper>
   );
 }

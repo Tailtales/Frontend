@@ -63,6 +63,9 @@ export const StatusContainer = styled.div`
 export const MenuItem = styled(BaseMenuItem)``;
 
 export const ActiveMenuItem = styled(BaseMenuItem)`
+  padding: 0px 24px;
+  height: 100%;
+  background: linear-gradient(180deg, #757070 0%, rgba(112, 112, 112, 0.00) 100%);
   &:after {
     content: "";
     position: absolute;

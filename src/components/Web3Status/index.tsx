@@ -36,7 +36,6 @@ export default function Web3Status() {
 
   return (
     <div>
-      {isConnected && addressShort}
       {isWalletModalOpen && (
         <WalletModal
           isWalletModalOpen={isWalletModalOpen}
@@ -44,7 +43,8 @@ export default function Web3Status() {
         />
       )}
       {isConnected && address ? (
-        <ConnectWallet onClick={() => disconnect()}>Diconnect </ConnectWallet>
+        <ConnectWallet onClick={() => disconnect()}>{isConnected && addressShort}
+        </ConnectWallet>
       ) : (
         <ConnectWalletWrapper onClick={() => toggleWalletModal(true)}>
            <img height={'38px'} width={'44px'} style={{'marginLeft': '24px'}} src={wallet} alt="logo"/>
