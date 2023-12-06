@@ -2,7 +2,8 @@ import styled from "styled-components";
 import Puppy from "../../../assets/Puppy.png";
 import { useNFTContext } from "../../../contexts/nftContracts";
 import { useAccountDetails } from "../../../hooks/starknet-react";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useContractWrite } from "@starknet-react/core";
 
 const Wrapper = styled.div`
   background: #43e4ef;
@@ -30,10 +31,46 @@ const PuppyImageWrapper = styled.div`
   display: grid;
 `;
 
-export default function FeedPuppy() {
-  const { address } = useAccountDetails();
-  const { nfts, refresh } = useNFTContext();
+const ButtonFeed = styled.button`
+  border: none;
+  border-radius: 50px;
+  background-color: green;
+  color: white;
+  padding: 12px;
+  cursor: pointer;
+`;
 
+export default function FeedPuppy() {
+  const [selectedPuppy, setSelectedPuppy] = useState<string>();
+  const { nfts, refresh, contract } = useNFTContext();
+  const { address } = useAccountDetails();
+
+  const calls = useMemo(() => {
+    if (!address || !contract || !selectedPuppy) return [];
+    return contract.populateTransaction["pet"]!({
+      low: selectedPuppy,
+      high: 0,
+    });
+  }, [contract, address, selectedPuppy]);
+
+  const { writeAsync } = useContractWrite({
+    calls,
+  });
+
+  useEffect(() => {
+    if (selectedPuppy) {
+      writeAsync().then((tx) => {
+        if (tx.transaction_hash) {
+          refresh();
+          alert(`Congratulations you have won ${Math.random() / 1000} ethers`);
+        }
+      });
+    }
+  }, [selectedPuppy]);
+
+  const feedPuppy = (id: string) => {
+    setSelectedPuppy(id);
+  };
   return (
     <Wrapper>
       <RiteText>Feed your Puppy</RiteText>
@@ -49,7 +86,9 @@ export default function FeedPuppy() {
                   width={"180px"}
                   style={{ margin: "12px" }}
                 ></img>
-                <button>Feed</button>
+                <ButtonFeed onClick={() => feedPuppy(puppy.id)}>
+                  Feed
+                </ButtonFeed>
               </PuppyImageWrapper>
             );
           }

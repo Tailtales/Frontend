@@ -2,7 +2,7 @@ import { useProvider } from "@starknet-react/core";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import abi from "../abis/mintPuppyABI.json";
 import { Contract } from "starknet";
-import { nftContractAddress } from "../config";
+import { nftContractAddress, rpcURL } from "../config";
 
 interface INFTContext {
   nfts: NFT[];
@@ -36,6 +36,42 @@ export function NFTContextProvider({
     setContract(contract);
   }, [provider]);
 
+  async function makeRequest(entryPointSelector: string, calldata: string[]) {
+    console.log(
+      `{"method":"starknet_call","jsonrpc":"2.0","params":{"request":{"contract_address":"${nftContractAddress}","entry_point_selector":"${entryPointSelector}","calldata":${JSON.stringify(
+        calldata
+      )}},"block_id":"pending"},"id":0}`
+    );
+
+    try {
+      const data = await fetch(rpcURL, {
+        headers: {
+          accept: "*/*",
+          "accept-language": "en-US,en;q=0.9",
+          "content-type": "application/json",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": '"macOS"',
+          "sec-fetch-dest": "empty",
+          "sec-fetch-mode": "cors",
+          "sec-fetch-site": "cross-site",
+        },
+        referrer: "https://testnet.starkscan.co/",
+        referrerPolicy: "strict-origin-when-cross-origin",
+        body: `{"method":"starknet_call","jsonrpc":"2.0","params":{"request":{"contract_address":"${nftContractAddress}","entry_point_selector":"${entryPointSelector}","calldata":${JSON.stringify(
+          calldata
+        )}},"block_id":"pending"},"id":0}`,
+        method: "POST",
+        mode: "cors",
+        credentials: "omit",
+      });
+
+      return await data.json();
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  }
+
   useEffect(() => {
     if (!contract) {
       setNFts([]);
@@ -51,6 +87,12 @@ export function NFTContextProvider({
 
       const _nfts: NFT[] = [];
       for (let tokenId = 1; tokenId <= totalNFTs; tokenId++) {
+        // const e = await makeRequest(
+        //   "0x1e37c7ed6a06a994c20fbd2f42bf29a9f5d6c8e3fc27051e5e2335817ef219a",
+        //   [tokenId.toString(), "0"]
+        // );
+        // console.log(e);
+
         const exists = await contract.exists(tokenId);
         if (!exists) continue;
 
@@ -64,7 +106,7 @@ export function NFTContextProvider({
 
       setNFts(_nfts);
     })().catch((err) => console.error(err));
-  }, []);
+  }, [contract]);
 
   async function refresh() {
     if (!contract) {

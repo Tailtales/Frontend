@@ -61,6 +61,7 @@ export default function LastRites() {
       writeAsync().then((tx) => {
         if (tx.transaction_hash) {
           refresh();
+          alert(`Congratulations you have won ${Math.random() / 1000} ethers`);
         }
       });
     }
