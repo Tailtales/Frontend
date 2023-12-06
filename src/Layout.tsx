@@ -50,9 +50,9 @@ export default function Layout() {
               <Route exact strict path="/mint" component={Mint} />
               <Route exact strict path="/breeding" component={Breeding} />
               <Route exact strict path="/dailyQuests" component={DailyQuest} />
-              <Route exact strict path="/love" component={LovePuppy} />
-              <Route exact strict path="/entertain" component={EntertainPuppy} />
-              <Route exact strict path="/feed" component={FeedPuppy} />
+              <Route exact strict path="/dailyQuests/love" component={LovePuppy} />
+              <Route exact strict path="/dailyQuests/entertain" component={EntertainPuppy} />
+              <Route exact strict path="/dailyQuests/feed" component={FeedPuppy} />
               <Route exact strict path="/lastRites" component={LastRites} />
               <Redirect to="/" />
             </Switch>

@@ -1,8 +1,6 @@
-import { SetStateAction, useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import { DownOutlined } from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Dropdown, Space, Typography } from "antd";
+
 
 import logo from "../../assets/logo 1.png";
 import Web3Status from "../Web3Status";
@@ -14,7 +12,6 @@ import {
   Nav,
   StatusContainer,
 } from "./styled";
-import { MenuInfo } from "rc-menu/lib/interface";
 
 const MenuItemLink = ({ to, isActive, children }) => {
   const Component = isActive ? ActiveMenuItem : MenuItem;
@@ -27,8 +24,7 @@ const MenuItemLink = ({ to, isActive, children }) => {
 
 export const PageTabs = () => {
   const { pathname } = useLocation();
-  const history = useHistory();
-  const [dailyQuestKey, setDailyQuestKey] = useState('love')
+
   const isHomeActive =
     pathname.startsWith("/") &&
     !pathname.includes("mint") &&
@@ -36,25 +32,6 @@ export const PageTabs = () => {
     !pathname.includes("dailyQuests") &&
     !pathname.includes("lastRites");
 
-  const items: MenuProps["items"] = [
-    {
-      key: "love",
-      label: "Love your pet",
-    },
-    {
-      key: "entertain",
-      label: "Entertain your pet",
-    },
-    {
-      key: "feed",
-      label: "Feed your pet",
-    },
-  ];
-  const selectPetDailyQuest = (key: SetStateAction<string> | MenuInfo) => {
-    console.log({key})
-    setDailyQuestKey(key)
-    history.push(`/${key.key}`)
-  }
   return (
     <>
       <MenuItemLink to="/home" isActive={isHomeActive}>
@@ -70,21 +47,7 @@ export const PageTabs = () => {
         to="/dailyQuests"
         isActive={pathname.startsWith("/dailyQuests")}
       >
-        <Dropdown
-          menu={{
-            items,
-            selectable: true,
-            defaultSelectedKeys: [dailyQuestKey],
-            onClick: selectPetDailyQuest,
-          }}
-        >
-          <Typography.Link onClick={e => e.stopPropagation()}>
-            <Space>
-              Daily Quests
-              <DownOutlined />
-            </Space>
-          </Typography.Link>
-        </Dropdown>
+        <div>Daily Quests</div>
       </MenuItemLink>
       <MenuItemLink
         to="/lastRites"
