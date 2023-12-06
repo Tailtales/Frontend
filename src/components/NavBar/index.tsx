@@ -27,6 +27,7 @@ const MenuItemLink = ({ to, isActive, children }) => {
 
 export const PageTabs = () => {
   const { pathname } = useLocation();
+  const history = useHistory();
   const [dailyQuestKey, setDailyQuestKey] = useState('love')
   const isHomeActive =
     pathname.startsWith("/") &&
@@ -50,7 +51,9 @@ export const PageTabs = () => {
     },
   ];
   const selectPetDailyQuest = (key: SetStateAction<string> | MenuInfo) => {
+    console.log({key})
     setDailyQuestKey(key)
+    history.push(`/${key.key}`)
   }
   return (
     <>
@@ -72,10 +75,10 @@ export const PageTabs = () => {
             items,
             selectable: true,
             defaultSelectedKeys: [dailyQuestKey],
-            onClick: (key) => selectPetDailyQuest(key),
+            onClick: selectPetDailyQuest,
           }}
         >
-          <Typography.Link>
+          <Typography.Link onClick={e => e.stopPropagation()}>
             <Space>
               Daily Quests
               <DownOutlined />

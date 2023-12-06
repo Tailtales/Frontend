@@ -59,11 +59,14 @@ padding: 12px 78px;
 margin-top: 24px;
 color: white;
 text-transform: uppercase;
+cursor: pointer;
 `
 
 export default function  Breeding() {
   const { address } = useAccountDetails();
 	const { chain } = useNetwork();
+
+  
 
 	const { contract } = useContract({
 		// abi: mintPuppyABI,
