@@ -1,14 +1,11 @@
 import styled from "styled-components";
 import minting from "../../assets/minting.png";
 import { useAccountDetails } from "../../hooks/starknet-react";
-import {
-  useContract,
-  useContractWrite,
-  useNetwork,
-} from "@starknet-react/core";
+import { useContract, useContractWrite } from "@starknet-react/core";
 import { useMemo } from "react";
 import mintPuppyABI from "../../abis/mintPuppyABI.json";
 import { useHistory } from "react-router-dom";
+import { nftContractAddress } from "../../config";
 
 const Wrapper = styled.div`
   background: #cb6d2b;
@@ -62,13 +59,11 @@ const MintButton = styled.button`
 `;
 export default function Mint() {
   const { address } = useAccountDetails();
-  const { chain } = useNetwork();
   const history = useHistory();
 
   const { contract } = useContract({
     abi: mintPuppyABI,
-    address:
-      "0x00a184397bb804872a44602c4bb7525828004842d179089d57cf94dc1bd039f3",
+    address: nftContractAddress,
   });
 
   const calls = useMemo(() => {
@@ -76,10 +71,9 @@ export default function Mint() {
     return contract.populateTransaction["mint"]!(address, { low: 1, high: 0 });
   }, [contract, address]);
 
-  const { writeAsync, data } = useContractWrite({
+  const { writeAsync } = useContractWrite({
     calls,
   });
-  console.log({ data });
   const mintPuppy = () => {
     writeAsync().then((tx) => {
       if (tx.transaction_hash) {

@@ -1,5 +1,9 @@
 import styled from "styled-components";
 import Puppy from "../../assets/Puppy.png";
+import { useNFTContext } from "../../contexts/nftContracts";
+import { useAccountDetails } from "../../hooks/starknet-react";
+import { useContractWrite } from "@starknet-react/core";
+import { useEffect, useMemo, useState } from "react";
 
 const Wrapper = styled.div`
   background: #43e4ef;
@@ -26,25 +30,66 @@ const PuppyWrapper = styled.div`
 const PuppyImageWrapper = styled.div`
   display: grid;
 `;
+const ButtonBury = styled.button`
+  border: none;
+  border-radius: 50px;
+  background-color: red;
+  color: white;
+  padding: 12px;
+  cursor: pointer;
+`;
 
 export default function LastRites() {
-  const puppies = [{ nft_id: "1" }, { nft_id: "2" }, { nft_id: "3" }];
+  const { nfts, refresh, contract } = useNFTContext();
+  const { address } = useAccountDetails();
+  const [selectedPuppy, setSelectedPuppy] = useState<string>();
+
+  const calls = useMemo(() => {
+    if (!address || !contract || !selectedPuppy) return [];
+    return contract.populateTransaction["bury"]!({
+      low: selectedPuppy,
+      high: 0,
+    });
+  }, [contract, address, selectedPuppy]);
+
+  const { writeAsync } = useContractWrite({
+    calls,
+  });
+
+  useEffect(() => {
+    if (selectedPuppy) {
+      writeAsync().then((tx) => {
+        if (tx.transaction_hash) {
+          refresh();
+        }
+      });
+    }
+  }, [selectedPuppy]);
+
+  const buryPuppy = (id: string) => {
+    setSelectedPuppy(id);
+  };
   return (
     <Wrapper>
       <RiteText>The Last Rites</RiteText>
       <PuppyWrapper>
-        {puppies.map((puppy) => {
-          return (
-            <PuppyImageWrapper key={puppy.nft_id}>
-              <img
-                src={Puppy}
-                height={"200px"}
-                width={"180px"}
-                style={{ margin: "12px" }}
-              ></img>
-              <button>Bury</button>
-            </PuppyImageWrapper>
-          );
+        {nfts.map((puppy) => {
+          if (puppy.owner.toLowerCase() !== address?.toLowerCase()) return;
+          if (!puppy.isAlive) {
+            return (
+              <PuppyImageWrapper key={puppy.id}>
+                <img
+                  src={Puppy}
+                  height={"200px"}
+                  width={"180px"}
+                  style={{ margin: "12px" }}
+                ></img>
+                <ButtonBury onClick={() => buryPuppy(puppy.id)}>
+                  Bury
+                </ButtonBury>
+              </PuppyImageWrapper>
+            );
+          }
         })}
       </PuppyWrapper>
     </Wrapper>

@@ -1,19 +1,16 @@
 import { StarknetProvider } from "./components/starknet-provider";
-import { Provider } from 'react-redux'
-import { HashRouter } from 'react-router-dom'
-
-import store from './state'
+import { HashRouter } from "react-router-dom";
 import Layout from "./Layout";
-
+import { NFTContextProvider } from "./contexts/nftContracts";
 
 export function App() {
   return (
     <StarknetProvider>
-      {/* <Provider store={store}> */}
+      <NFTContextProvider>
         <HashRouter>
-          <Layout/>
+          <Layout />
         </HashRouter>
-      {/* </Provider> */}
+      </NFTContextProvider>
     </StarknetProvider>
   );
 }

@@ -27,7 +27,8 @@
     "redux": "^4.1.2",
     "redux-persist": "^6.0.0",
     "starknet": "^5.19.5",
-    "styled-components": "^6.1.1"
+    "styled-components": "^6.1.1",
+    "viem": "^1.19.11"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
