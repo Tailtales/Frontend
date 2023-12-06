@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { SetStateAction, useCallback, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { DownOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
@@ -14,6 +14,7 @@ import {
   Nav,
   StatusContainer,
 } from "./styled";
+import { MenuInfo } from "rc-menu/lib/interface";
 
 const MenuItemLink = ({ to, isActive, children }) => {
   const Component = isActive ? ActiveMenuItem : MenuItem;
@@ -26,6 +27,7 @@ const MenuItemLink = ({ to, isActive, children }) => {
 
 export const PageTabs = () => {
   const { pathname } = useLocation();
+  const [dailyQuestKey, setDailyQuestKey] = useState('love')
   const isHomeActive =
     pathname.startsWith("/") &&
     !pathname.includes("mint") &&
@@ -35,18 +37,21 @@ export const PageTabs = () => {
 
   const items: MenuProps["items"] = [
     {
-      key: "1",
+      key: "love",
       label: "Love your pet",
     },
     {
-      key: "2",
+      key: "entertain",
       label: "Entertain your pet",
     },
     {
-      key: "3",
+      key: "feed",
       label: "Feed your pet",
     },
   ];
+  const selectPetDailyQuest = (key: SetStateAction<string> | MenuInfo) => {
+    setDailyQuestKey(key)
+  }
   return (
     <>
       <MenuItemLink to="/home" isActive={isHomeActive}>
@@ -66,7 +71,8 @@ export const PageTabs = () => {
           menu={{
             items,
             selectable: true,
-            defaultSelectedKeys: ["3"],
+            defaultSelectedKeys: [dailyQuestKey],
+            onClick: (key) => selectPetDailyQuest(key),
           }}
         >
           <Typography.Link>
@@ -108,7 +114,7 @@ const Navbar = () => {
       </LogoContainer>
 
       <MenuContainer>
-        <PageTabs />
+        <PageTabs/>
       </MenuContainer>
 
       <StatusContainer>

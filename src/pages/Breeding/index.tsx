@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import breeding from '../../assets/breeding.png'
 import { Input } from 'antd';
+import { useAccountDetails } from "../../hooks/starknet-react";
+import { useContract, useContractWrite, useNetwork } from "@starknet-react/core";
+import { useMemo } from "react";
 
 const Wrapper = styled.div`
   background: #cb6d2b;
@@ -47,7 +50,42 @@ margin-top: 56px;
 const BreedingNFTs = styled.div`
     display: flex;
 `
+
+const BreedButton = styled.button`
+border-radius: 50px;
+background: #22B11F;
+border: none;
+padding: 12px 78px;
+margin-top: 24px;
+color: white;
+text-transform: uppercase;
+`
+
 export default function  Breeding() {
+  const { address } = useAccountDetails();
+	const { chain } = useNetwork();
+
+	const { contract } = useContract({
+		// abi: mintPuppyABI,
+		address: chain.nativeCurrency.address,
+	});
+
+	const calls = useMemo(() => {
+		if (!address || !contract) return [];
+		return contract.populateTransaction["transfer"]!(address, { low: 1, high: 0 });
+	}, [contract, address]);
+
+	const {
+		writeAsync,
+		data,
+		isPending,
+	} = useContractWrite({
+		calls,
+	});  
+   
+  const breedPuppy = () => {
+   
+  }  
   return (
     <Wrapper>
       <BreddingText>Breeding</BreddingText>
@@ -60,7 +98,7 @@ export default function  Breeding() {
             <Input placeholder="Select marton id"></Input>
             <Input placeholder="Select sire id"></Input>
             </BreedingNFTs>
-            <button>Breed</button>
+            <BreedButton onClick={() => breedPuppy()}>Breed</BreedButton>
         </BreedingDetails>
       </BreedCard>
       </BreedCardWrapper>

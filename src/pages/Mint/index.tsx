@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import minting from '../../assets/minting.png'
-import { Input } from 'antd';
+import { useAccountDetails } from "../../hooks/starknet-react";
+import { useContract, useContractWrite, useNetwork } from "@starknet-react/core";
+import { useMemo } from "react";
+import mintPuppyABI from '../../abis/mintPuppyABI.json'
 
 const Wrapper = styled.div`
   background: #cb6d2b;
@@ -43,7 +46,41 @@ font-weight: 600;
 line-height: 154.212%; 
 margin-top: 56px;
 `
+const MintButton = styled.button`
+border-radius: 50px;
+background: #22B11F;
+border: none;
+padding: 12px 78px;
+margin-top: 24px;
+color: white;
+text-transform: uppercase;
+`
 export default function Mint() {
+
+    const { address } = useAccountDetails();
+	const { chain } = useNetwork();
+
+	const { contract } = useContract({
+		// abi: mintPuppyABI,
+		address: chain.nativeCurrency.address,
+	});
+
+	const calls = useMemo(() => {
+		if (!address || !contract) return [];
+		return contract.populateTransaction["transfer"]!(address, { low: 1, high: 0 });
+	}, [contract, address]);
+
+	const {
+		writeAsync,
+		data,
+		isPending,
+	} = useContractWrite({
+		calls,
+	});  
+   
+  const mintPuppy = () => {
+   
+  }  
   return (
     <Wrapper>
       <MintingText>Minting</MintingText>
@@ -53,10 +90,8 @@ export default function Mint() {
         <MintingDetails>
             <PublicMinting>Public Minting</PublicMinting>
             <div>You can mint your NFTs below</div>
-            <div>Enter number below</div>
-            <Input placeholder="0"></Input>
             <div>Price: 0.055ETH</div>
-            <button>Mint</button>
+            <MintButton onClick={() => mintPuppy()}>Mint</MintButton>
         </MintingDetails>
       </MintCard>
       </MintCardWrapper>
