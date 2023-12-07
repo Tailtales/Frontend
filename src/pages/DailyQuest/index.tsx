@@ -8,10 +8,12 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
   background: white;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 `;
 const DailyQuestButtonsWrapper = styled.div`
   display: flex;
-
 `;
 const LoveButton = styled.div`
   color: #fff;
@@ -20,7 +22,6 @@ const LoveButton = styled.div`
 const EntertainButton = styled.div`
   color: #fff;
   font-size: 24px;
-
 `;
 const FeedButton = styled.div`
   color: #fff;
@@ -47,7 +48,6 @@ const EntertainButtonWrapper = styled.button`
   display: flex;
   align-items: center;
   margin: 24px;
-
 `;
 const FeedButtonWrapper = styled.button`
   border-radius: 20px;
@@ -59,23 +59,20 @@ const FeedButtonWrapper = styled.button`
   display: flex;
   align-items: center;
   margin: 24px;
-
 `;
 
-
-
 export default function DailyQuest() {
-const history = useHistory();
- 
+  const history = useHistory();
+
   const hanldeLove = () => {
-    history.push('/dailyQuests/love')
-  }
+    history.push("/dailyQuests/love");
+  };
   const hanldeEntertain = () => {
-    history.push('/dailyQuests/entertain')
-  }
+    history.push("/dailyQuests/entertain");
+  };
   const hanldeFeed = () => {
-    history.push('/dailyQuests/feed')
-  }
+    history.push("/dailyQuests/feed");
+  };
   return (
     <Wrapper>
       <DailyQuestButtonsWrapper>
