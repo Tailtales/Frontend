@@ -65,7 +65,7 @@ export default function LastRites() {
         }
       });
     }
-  }, [selectedPuppy]);
+  }, [refresh, selectedPuppy, writeAsync]);
 
   const buryPuppy = (id: string) => {
     setSelectedPuppy(id);
@@ -75,7 +75,6 @@ export default function LastRites() {
       <RiteText>The Last Rites</RiteText>
       <PuppyWrapper>
         {nfts.map((puppy) => {
-          if (puppy.owner.toLowerCase() !== address?.toLowerCase()) return;
           if (!puppy.isAlive) {
             return (
               <PuppyImageWrapper key={puppy.id}>
