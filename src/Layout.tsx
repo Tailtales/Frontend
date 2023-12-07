@@ -29,6 +29,7 @@ const BodyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  flex-flow: wrap;
 `;
 
 const Marginer = styled.div`
