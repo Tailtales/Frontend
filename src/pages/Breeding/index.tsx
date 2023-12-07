@@ -62,9 +62,10 @@ const BreedButton = styled.button`
   cursor: pointer;
 `;
 
-const PuppyImageWrapper = styled.div`
+const PuppyImageWrapper = styled.div<{ isActive: any }>`
   display: grid;
   cursor: pointer;
+  border: ${({ isActive }) => (isActive ? `2px solid black` : "none")};
 `;
 
 const PuppyWrapper = styled.div`
@@ -75,7 +76,8 @@ const PuppyWrapper = styled.div`
 export default function Breeding() {
   const { address } = useAccountDetails();
   const [selectedPuppies, setSelectedPuppies] = useState<string[]>([]);
-  const { contract } = useNFTContext();
+  // const [isPuppyActive, setIsPuppyActive] = useState<boolean>(false);
+  const { contract, refresh } = useNFTContext();
 
   const calls = useMemo(() => {
     if (!address || !contract || selectedPuppies.length < 2) return [];
@@ -96,7 +98,14 @@ export default function Breeding() {
   });
 
   const breedPuppy = () => {
-    writeAsync();
+    writeAsync().then((tx) => {
+      if (tx.transaction_hash) {
+        refresh();
+        alert(
+          `Breeding is in process please wait for some time for the transaction to complete`
+        );
+      }
+    });
   };
 
   const { nfts } = useNFTContext();
@@ -106,6 +115,13 @@ export default function Breeding() {
     else if (selectedPuppies.length >= 2) puppies.push(selectedPuppies[1]);
     puppies.push(puppy.id);
     setSelectedPuppies(puppies);
+  };
+
+  const checkIsPuppyActive = (puppy: NFT) => {
+    if (selectedPuppies.length && selectedPuppies.includes(puppy.id)) {
+      return true;
+    }
+    return false;
   };
   return (
     <Wrapper>
@@ -118,6 +134,7 @@ export default function Breeding() {
               <PuppyImageWrapper
                 key={puppy.id}
                 onClick={() => selectPuppiesForBreeding(puppy)}
+                isActive={checkIsPuppyActive(puppy)}
               >
                 <img
                   src={Puppy}
