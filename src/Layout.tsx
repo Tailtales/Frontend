@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 import { Web3ReactProvider } from "@web3-react/core";

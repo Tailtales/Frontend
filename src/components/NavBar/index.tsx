@@ -1,6 +1,5 @@
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-
 
 import logo from "../../assets/logo 1.png";
 import Web3Status from "../Web3Status";
@@ -13,7 +12,15 @@ import {
   StatusContainer,
 } from "./styled";
 
-const MenuItemLink = ({ to, isActive, children }) => {
+const MenuItemLink = ({
+  to,
+  isActive,
+  children,
+}: {
+  to: string;
+  isActive: boolean;
+  children: React.ReactNode;
+}) => {
   const Component = isActive ? ActiveMenuItem : MenuItem;
   return (
     <Component to={to} style={{ textDecoration: "none", color: "#FFF" }}>
@@ -80,7 +87,7 @@ const Navbar = () => {
       </LogoContainer>
 
       <MenuContainer>
-        <PageTabs/>
+        <PageTabs />
       </MenuContainer>
 
       <StatusContainer>

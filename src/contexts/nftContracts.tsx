@@ -2,7 +2,7 @@ import { useProvider } from "@starknet-react/core";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import abi from "../abis/mintPuppyABI.json";
 import { Contract } from "starknet";
-import { nftContractAddress, rpcURL } from "../config";
+import { nftContractAddress } from "../config";
 
 interface INFTContext {
   nfts: NFT[];
@@ -36,41 +36,41 @@ export function NFTContextProvider({
     setContract(contract);
   }, [provider]);
 
-  async function makeRequest(entryPointSelector: string, calldata: string[]) {
-    console.log(
-      `{"method":"starknet_call","jsonrpc":"2.0","params":{"request":{"contract_address":"${nftContractAddress}","entry_point_selector":"${entryPointSelector}","calldata":${JSON.stringify(
-        calldata
-      )}},"block_id":"pending"},"id":0}`
-    );
+  // async function makeRequest(entryPointSelector: string, calldata: string[]) {
+  //   console.log(
+  //     `{"method":"starknet_call","jsonrpc":"2.0","params":{"request":{"contract_address":"${nftContractAddress}","entry_point_selector":"${entryPointSelector}","calldata":${JSON.stringify(
+  //       calldata
+  //     )}},"block_id":"pending"},"id":0}`
+  //   );
 
-    try {
-      const data = await fetch(rpcURL, {
-        headers: {
-          accept: "*/*",
-          "accept-language": "en-US,en;q=0.9",
-          "content-type": "application/json",
-          "sec-ch-ua-mobile": "?0",
-          "sec-ch-ua-platform": '"macOS"',
-          "sec-fetch-dest": "empty",
-          "sec-fetch-mode": "cors",
-          "sec-fetch-site": "cross-site",
-        },
-        referrer: "https://testnet.starkscan.co/",
-        referrerPolicy: "strict-origin-when-cross-origin",
-        body: `{"method":"starknet_call","jsonrpc":"2.0","params":{"request":{"contract_address":"${nftContractAddress}","entry_point_selector":"${entryPointSelector}","calldata":${JSON.stringify(
-          calldata
-        )}},"block_id":"pending"},"id":0}`,
-        method: "POST",
-        mode: "cors",
-        credentials: "omit",
-      });
+  //   try {
+  //     const data = await fetch(rpcURL, {
+  //       headers: {
+  //         accept: "*/*",
+  //         "accept-language": "en-US,en;q=0.9",
+  //         "content-type": "application/json",
+  //         "sec-ch-ua-mobile": "?0",
+  //         "sec-ch-ua-platform": '"macOS"',
+  //         "sec-fetch-dest": "empty",
+  //         "sec-fetch-mode": "cors",
+  //         "sec-fetch-site": "cross-site",
+  //       },
+  //       referrer: "https://testnet.starkscan.co/",
+  //       referrerPolicy: "strict-origin-when-cross-origin",
+  //       body: `{"method":"starknet_call","jsonrpc":"2.0","params":{"request":{"contract_address":"${nftContractAddress}","entry_point_selector":"${entryPointSelector}","calldata":${JSON.stringify(
+  //         calldata
+  //       )}},"block_id":"pending"},"id":0}`,
+  //       method: "POST",
+  //       mode: "cors",
+  //       credentials: "omit",
+  //     });
 
-      return await data.json();
-    } catch (err) {
-      console.error(err);
-      return null;
-    }
-  }
+  //     return await data.json();
+  //   } catch (err) {
+  //     console.error(err);
+  //     return null;
+  //   }
+  // }
 
   useEffect(() => {
     if (!contract) {
